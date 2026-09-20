@@ -640,12 +640,12 @@ footer{padding:64px 0 52px; text-align:center; border-top:1px solid var(--hair-s
     <div class="center">
       <div class="eyebrow">ছবিঘর</div>
       <h2>Moments</h2>
-      <p style="color:var(--parchment-dim)">সাত বছরের কিছু টুকরো, আর সামনের দিনগুলোর অপেক্ষা।</p>
+      <p style="color:var(--parchment-dim)">পরিবারের আশীর্বাদে নতুন এক শুরুর কিছু মুহূর্ত, আর সামনের দিনগুলোর অপেক্ষা।</p>
     </div>
 
     <div class="gallery" id="gallery">
-      <figure class="shot"><img src="photos/01.jpg" alt="" loading="lazy"><figcaption>First Meet</figcaption></figure>
-      <figure class="shot"><img src="photos/02.jpg" alt="" loading="lazy"><figcaption>Dinajpur,2026</figcaption></figure>
+      <figure class="shot"><img src="photos/01.jpg" alt="" loading="lazy"><figcaption>প্রথম দেখা</figcaption></figure>
+      <figure class="shot"><img src="photos/02.jpg" alt="" loading="lazy"><figcaption>Dinajpur</figcaption></figure>
       <figure class="shot"><img src="photos/03.jpg" alt="" loading="lazy"><figcaption>আশীর্বাদের দিন</figcaption></figure>
       <figure class="shot"><img src="photos/04.jpg" alt="" loading="lazy"><figcaption>দুই পরিবার</figcaption></figure>
       <figure class="shot"><img src="photos/05.jpg" alt="" loading="lazy"><figcaption>প্রি-ওয়েডিং শুট</figcaption></figure>
@@ -674,10 +674,11 @@ footer{padding:64px 0 52px; text-align:center; border-top:1px solid var(--hair-s
         <input id="g-name" type="text" placeholder="আপনার পুরো নাম" autocomplete="name">
       </div>
       <div class="field">
-        <label for="g-count">ক’জন আসছেন</label>
-        <select id="g-count">
-          <option>১ জন</option><option>২ জন</option><option>৩ জন</option>
-          <option>৪ জন</option><option>৫ জন বা তার বেশি</option>
+        <label for="g-side">আপনি কার আত্মীয়/অতিথি</label>
+        <select id="g-side">
+          <option>কনের পক্ষ</option>
+          <option>বরের পক্ষ</option>
+          <option>দুই পরিবারেরই ঘনিষ্ঠ</option>
         </select>
       </div>
       <div class="field">
@@ -802,7 +803,7 @@ footer{padding:64px 0 52px; text-align:center; border-top:1px solid var(--hair-s
     var name = document.getElementById('g-name').value.trim();
     if(!name){ toast.textContent = 'নামটা লিখুন, তারপর পাঠান।'; document.getElementById('g-name').focus(); return; }
     var msg = 'বিয়েতে আসছি —\nনাম: ' + name +
-      '\nমোট: ' + document.getElementById('g-count').value +
+      '\nপক্ষ: ' + document.getElementById('g-side').value +
       '\nদিন: ' + document.getElementById('g-days').value;
     var note = document.getElementById('g-note').value.trim();
     if(note) msg += '\nবিশেষ: ' + note;
