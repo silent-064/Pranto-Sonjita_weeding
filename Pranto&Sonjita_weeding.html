@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>শুভ বিবাহ — Pranto &amp; Sonjita </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+Bengali:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#2A080C;
+  --burgundy:#5A121B;
+  --burgundy-deep:#3B0A10;
+  --parchment:#F1E6D2;
+  --parchment-dim:#D9C9AE;
+  --gold:#B8924F;
+  --gold-bright:#DCC38A;
+  --rose:#C98F93;
+  --page:#2A080C;
+  --card:#3B0A10;
+  --hair:rgba(184,146,79,.38);
+  --hair-soft:rgba(184,146,79,.18);
+  --serif:"Cormorant Garamond","Noto Serif Bengali",Georgia,serif;
+  --roman:"Cinzel","Cormorant Garamond",Georgia,serif;
+  --bangla:"Noto Serif Bengali","Cormorant Garamond",serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --page:#2A080C; --card:#3B0A10; --parchment:#EFE3CD;
+  }
+}
+:root[data-theme="dark"]{ --page:#2A080C; --card:#3B0A10; --parchment:#EFE3CD; }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--page); color:var(--parchment);
+  font-family:var(--serif); font-weight:300;
+  font-size:clamp(17px,1.15vw,19px); line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body.locked{overflow:hidden;height:100vh}
+img{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold-bright); outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ---------- paper grain & traditional backdrop ---------- */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.5;
+  background-image:radial-gradient(rgba(241,230,210,.06) 1px, transparent 1px);
+  background-size:3px 3px;
+}
+
+/* ---------- envelope ---------- */
+#envelope{
+  position:fixed; inset:0; z-index:90; background:var(--ink);
+  display:flex; align-items:center; justify-content:center; padding:24px;
+  transition:opacity .9s ease .75s, visibility .9s ease .75s;
+}
+#envelope.opened{opacity:0; visibility:hidden}
+.env-wrap{width:min(440px,92vw); text-align:center}
+.env-body{
+  position:relative; aspect-ratio:1.45/1; background:var(--burgundy);
+  border:1px solid var(--hair); box-shadow:0 30px 70px rgba(0,0,0,.55);
+  display:grid; place-items:center;
+}
+.env-body::before,.env-body::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  border-top:1px solid var(--hair-soft);
+}
+.env-flap{
+  position:absolute; top:0; left:0; width:100%; height:62%;
+  background:linear-gradient(175deg,#661621,#4A0E15);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top center; transform:rotateX(0deg);
+  transition:transform 1s cubic-bezier(.65,.05,.36,1);
+  border-bottom:1px solid var(--hair-soft);
+}
+#envelope.opened .env-flap{transform:rotateX(180deg)}
+.seal{
+  position:absolute; top:52%; left:50%; transform:translate(-50%,-50%);
+  width:86px; height:86px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#8E1F2A,#5C0E16);
+  box-shadow:0 6px 18px rgba(0,0,0,.5), inset 0 0 0 1px rgba(220,195,138,.4);
+  display:grid; place-items:center; cursor:pointer; border:none; padding:0;
+  z-index:3; transition:transform .5s ease, opacity .5s ease;
+  animation:pulse 3.2s ease-in-out infinite;
+}
+#envelope.opened .seal{transform:translate(-50%,-50%) scale(.4) rotate(-25deg); opacity:0; animation:none}
+@keyframes pulse{0%,100%{box-shadow:0 6px 18px rgba(0,0,0,.5),inset 0 0 0 1px rgba(220,195,138,.4),0 0 0 0 rgba(184,146,79,.35)}50%{box-shadow:0 6px 18px rgba(0,0,0,.5),inset 0 0 0 1px rgba(220,195,138,.4),0 0 0 16px rgba(184,146,79,0)}}
+.seal span{font-family:var(--roman); font-size:26px; color:var(--gold-bright); letter-spacing:.04em}
+.env-card{
+  position:absolute; left:6%; width:88%; bottom:8%; background:var(--parchment); color:var(--burgundy-deep);
+  padding:22px 18px; z-index:2; transform:translateY(0); opacity:0;
+  transition:transform 1s cubic-bezier(.2,.8,.3,1) .35s, opacity .5s ease .35s;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+#envelope.opened .env-card{transform:translateY(-38%); opacity:1}
+.env-card .om{font-family:var(--bangla); font-size:15px; color:var(--burgundy)}
+.env-card .nm{font-family:var(--roman); font-size:22px; letter-spacing:.06em; margin:6px 0 2px}
+.env-hint{margin-top:26px; font-family:var(--bangla); font-size:14px; letter-spacing:.14em; color:var(--gold)}
+#envelope.opened .env-hint{opacity:0; transition:opacity .3s}
+
+/* ---------- shared bits ---------- */
+.shell{width:min(1080px,92vw); margin:0 auto; position:relative; z-index:1}
+section{padding:clamp(72px,10vw,132px) 0}
+.eyebrow{font-family:var(--bangla); font-size:15px; letter-spacing:.2em; color:var(--gold)}
+h2{font-family:var(--roman); font-weight:400; font-size:clamp(28px,4.4vw,44px);
+   letter-spacing:.05em; margin:.35em 0 .6em; color:var(--parchment)}
+h3{font-family:var(--roman); font-weight:400; font-size:22px; letter-spacing:.05em; margin:0}
+p{max-width:62ch}
+.center{text-align:center}
+.center p{margin-left:auto;margin-right:auto}
+.alpona{display:block; margin:0 auto; width:min(320px,70vw); height:auto; color:var(--gold)}
+
+/* ---------- hero ---------- */
+#hero{
+  min-height:100svh; display:grid; place-items:center; text-align:center;
+  padding:88px 0 56px; position:relative; overflow:hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(184,146,79,.22),transparent 62%),
+    linear-gradient(180deg,var(--burgundy-deep),var(--page));
+  border-bottom:1px solid var(--hair-soft);
+}
+.watermark{
+  position:absolute; top:50%; left:50%; width:min(720px,150vw); height:min(720px,150vw);
+  transform:translate(-50%,-50%); color:var(--gold); opacity:.05; pointer-events:none;
+  animation:wmspin 140s linear infinite; z-index:0;
+}
+@keyframes wmspin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){ .watermark{animation:none} }
+#hero .shell{z-index:1}
+.invocation{font-family:var(--bangla); font-size:clamp(16px,2.2vw,20px); color:var(--gold-bright); letter-spacing:.08em}
+.couple{
+  font-family:var(--roman); font-weight:500; letter-spacing:.08em;
+  font-size:clamp(40px,10vw,92px); line-height:1.05; margin:.25em 0;
+}
+.amp{display:block; font-family:var(--serif); font-style:italic; font-weight:300;
+     font-size:clamp(22px,4vw,34px); color:var(--gold); letter-spacing:0; margin:.12em 0}
+.couple-bn{font-family:var(--bangla); font-size:clamp(17px,2.6vw,22px); color:var(--parchment-dim)}
+.datestrip{
+  margin-top:28px; display:inline-flex; align-items:center; gap:18px; flex-wrap:wrap; justify-content:center;
+  border-top:1px solid var(--hair); border-bottom:1px solid var(--hair); padding:14px 26px;
+  font-family:var(--roman); letter-spacing:.14em; font-size:clamp(13px,1.8vw,16px);
+}
+.datestrip i{font-style:normal; color:var(--gold)}
+.countdown{margin-top:38px; display:flex; gap:clamp(14px,4vw,40px); justify-content:center}
+.cd-unit{min-width:58px}
+.cd-num{font-family:var(--roman); font-size:clamp(26px,5vw,40px); color:var(--gold-bright); line-height:1}
+.cd-lab{font-family:var(--bangla); font-size:12px; letter-spacing:.14em; color:var(--parchment-dim); margin-top:6px}
+.scrollcue{margin-top:44px; font-family:var(--bangla); font-size:13px; color:var(--gold); letter-spacing:.16em}
+
+/* ---------- story ---------- */
+.story{display:grid; grid-template-columns:1fr; gap:34px; align-items:start}
+@media(min-width:820px){ .story{grid-template-columns:.85fr 1.15fr; gap:56px} }
+.story .lead{font-size:clamp(20px,2.6vw,26px); font-style:italic; color:var(--gold-bright); line-height:1.5}
+.story .bn{font-family:var(--bangla); font-weight:300; font-size:17px; line-height:2}
+
+/* ---------- events ledger ---------- */
+.ledger{border-top:1px solid var(--hair)}
+.rite{
+  display:grid; grid-template-columns:1fr; gap:6px;
+  padding:30px 0; border-bottom:1px solid var(--hair-soft);
+}
+@media(min-width:760px){ .rite{grid-template-columns:150px 1fr 190px; gap:32px; align-items:baseline} }
+.rite-when{font-family:var(--roman); color:var(--gold); font-size:15px; letter-spacing:.1em; white-space:nowrap}
+.rite-name-bn{font-family:var(--bangla); font-size:15px; color:var(--parchment-dim); margin-top:2px}
+.rite-note{margin:.5em 0 0; font-size:16px; color:var(--parchment-dim); max-width:54ch}
+.rite-where{font-size:15px; color:var(--parchment-dim); line-height:1.6}
+.rite-where b{font-weight:500; color:var(--parchment); display:block; font-family:var(--roman); letter-spacing:.04em}
+
+/* ---------- rituals ---------- */
+.rituals{display:grid; gap:1px; background:var(--hair-soft); border:1px solid var(--hair-soft)}
+@media(min-width:700px){ .rituals{grid-template-columns:repeat(2,1fr)} }
+@media(min-width:1000px){ .rituals{grid-template-columns:repeat(3,1fr)} }
+.ritual{background:var(--card); padding:28px 24px}
+.ritual h4{font-family:var(--bangla); font-weight:500; font-size:18px; margin:0 0 .4em; color:var(--gold-bright)}
+.ritual p{margin:0; font-size:15.5px; color:var(--parchment-dim); max-width:none}
+
+/* ---------- venue ---------- */
+.venue{text-align:center; background:linear-gradient(180deg,var(--page),var(--burgundy-deep)); position:relative; overflow:hidden}
+.venue-name{font-family:var(--roman); font-size:clamp(24px,4vw,36px); letter-spacing:.05em; margin:.2em 0}
+.btn{
+  display:inline-block; margin-top:22px; padding:13px 30px;
+  border:1px solid var(--gold); color:var(--gold-bright);
+  font-family:var(--roman); letter-spacing:.14em; font-size:14px; text-decoration:none;
+  transition:background .3s ease,color .3s ease;
+}
+.btn:hover,.btn:focus-visible{background:var(--gold); color:var(--burgundy-deep)}
+.btn.solid{background:var(--gold); color:var(--burgundy-deep); border-color:var(--gold); cursor:pointer}
+.btn.solid:hover{background:var(--gold-bright); border-color:var(--gold-bright)}
+
+/* ---------- rsvp ---------- */
+.form{width:min(560px,100%); margin:0 auto; text-align:left}
+.field{margin-bottom:20px}
+label{display:block; font-family:var(--bangla); font-size:14px; letter-spacing:.08em; color:var(--gold); margin-bottom:7px}
+input,select,textarea{
+  width:100%; background:transparent; border:none; border-bottom:1px solid var(--hair);
+  color:var(--parchment); font-family:var(--serif); font-size:17px; padding:9px 2px;
+}
+select{ -webkit-appearance:none; appearance:none; background-image:linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%); background-position:calc(100% - 13px) 18px,calc(100% - 8px) 18px; background-size:5px 5px; background-repeat:no-repeat}
+select option{background:var(--card); color:var(--parchment)}
+textarea{resize:vertical; min-height:60px}
+input:focus,select:focus,textarea:focus{outline:none; border-bottom-color:var(--gold-bright)}
+.form-note{font-size:14.5px; color:var(--parchment-dim); margin-top:16px}
+.toast{margin-top:16px; font-family:var(--bangla); font-size:15px; color:var(--gold-bright); min-height:1.6em}
+
+/* ---------- invitation letter ---------- */
+.letter-stage{background:linear-gradient(180deg,var(--page),var(--burgundy-deep)); position:relative; overflow:hidden}
+.letter{
+  width:min(680px,100%); margin:38px auto 0; background:var(--parchment); color:var(--burgundy-deep);
+  padding:clamp(28px,5vw,58px); position:relative;
+  box-shadow:0 26px 60px rgba(0,0,0,.45);
+  outline:1px solid rgba(90,18,27,.25); outline-offset:-14px;
+}
+.letter::after{
+  content:""; position:absolute; inset:20px; border:1px solid rgba(90,18,27,.14); pointer-events:none;
+}
+.letter .corner{position:absolute; width:34px; height:34px; color:var(--burgundy); opacity:.55}
+.letter .c1{top:12px;left:12px}
+.letter .c2{top:12px;right:12px;transform:scaleX(-1)}
+.letter .c3{bottom:12px;left:12px;transform:scaleY(-1)}
+.letter .c4{bottom:12px;right:12px;transform:scale(-1)}
+.letter-body{position:relative; z-index:1; text-align:center; font-family:var(--bangla); font-weight:300}
+.letter-om{font-size:15px; letter-spacing:.14em; color:var(--burgundy)}
+.letter-rule{width:64px; height:1px; background:rgba(90,18,27,.4); margin:18px auto}
+.letter-open{font-size:16px; line-height:2.1}
+.letter-names{
+  font-family:var(--roman); font-size:clamp(24px,5vw,38px); letter-spacing:.06em;
+  color:var(--burgundy); margin:.4em 0 .1em; font-weight:500;
+}
+.letter-names-bn{font-size:16px; color:rgba(58,10,16,.75)}
+.letter-meta{margin:26px 0 0; font-size:16px; line-height:2.1}
+.letter-meta b{font-weight:600}
+.letter-sign{margin-top:30px; font-size:15px; line-height:2; color:rgba(58,10,16,.8)}
+.letter-sign .ity{font-family:var(--serif); font-style:italic; font-size:19px; color:var(--burgundy)}
+
+/* ---------- gallery ---------- */
+.gallery{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:38px}
+@media(min-width:760px){ .gallery{grid-template-columns:repeat(3,1fr); gap:16px} }
+.shot{
+  position:relative; margin:0; aspect-ratio:3/4; overflow:hidden;
+  border:1px solid var(--hair); background:var(--card); cursor:zoom-in;
+}
+.shot:nth-child(3n+1){aspect-ratio:3/4}
+.shot:nth-child(3n+2){aspect-ratio:1/1}
+.shot img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .8s ease, filter .6s ease; filter:saturate(.92)}
+.shot:hover img{transform:scale(1.045)}
+.shot figcaption{
+  position:absolute; left:0; right:0; bottom:0; padding:22px 14px 12px;
+  background:linear-gradient(transparent,rgba(42,8,12,.85));
+  font-family:var(--bangla); font-size:13.5px; letter-spacing:.06em; color:var(--parchment);
+}
+.shot.empty{cursor:default; display:grid; place-items:center; background:
+  repeating-linear-gradient(45deg,rgba(184,146,79,.05) 0 10px,transparent 10px 20px), var(--card)}
+.shot.empty img{display:none}
+.shot.empty figcaption{position:static; background:none; text-align:center; color:var(--gold); padding:0}
+.shot.empty::before{content:"◆"; color:var(--hair); font-size:20px; display:block; margin-bottom:8px; text-align:center}
+
+#lightbox{
+  position:fixed; inset:0; z-index:95; background:rgba(20,4,7,.94);
+  display:none; align-items:center; justify-content:center; padding:5vw; cursor:zoom-out;
+}
+#lightbox.on{display:flex}
+#lightbox img{max-width:100%; max-height:88vh; border:1px solid var(--hair)}
+#lightbox .cap{position:absolute; bottom:22px; left:0; right:0; text-align:center;
+  font-family:var(--bangla); font-size:14px; color:var(--parchment-dim); letter-spacing:.08em}
+
+/* ---------- gallery download ---------- */
+.download-block{
+  width:min(560px,100%); margin:34px auto 0; text-align:center;
+  border-top:1px solid var(--hair-soft); border-bottom:1px solid var(--hair-soft); padding:28px 10px;
+}
+.download-block p{margin:0 auto 16px; color:var(--parchment-dim)}
+
+/* ---------- footer ---------- */
+footer{padding:64px 0 52px; text-align:center; border-top:1px solid var(--hair-soft)}
+.blessing{font-family:var(--bangla); font-size:clamp(17px,2.4vw,21px); color:var(--gold-bright); line-height:2}
+.credit{margin-top:26px; font-size:14px; color:var(--parchment-dim); letter-spacing:.06em}
+
+.reveal{opacity:0; transform:translateY(16px); transition:opacity .9s ease, transform .9s ease}
+.reveal.in{opacity:1; transform:none}
+
+/* ---------- RICH HINDU WEDDING PETAL & SPARKLE EFFECTS ---------- */
+.wedding-effects{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9999;
+  overflow:hidden;
+}
+
+/* Red, Pink, Marigold Petals & Golden Dust */
+.wedding-petal{
+  position:absolute;
+  top:-40px;
+  width:12px;
+  height:18px;
+  border-radius:80% 20% 80% 20%;
+  background:radial-gradient(circle at 30% 30%, #FF85A1, #D90429);
+  box-shadow:0 0 10px rgba(217,4,41,.4);
+  animation:petalFall linear infinite;
+}
+.wedding-petal.marigold{
+  width:10px;
+  height:14px;
+  border-radius:50% 50% 50% 0%;
+  background:radial-gradient(circle at 30% 30%, #FFD000, #FF7B00);
+  box-shadow:0 0 8px rgba(255,123,0,.4);
+}
+.wedding-petal.rose-soft{
+  width:14px;
+  height:18px;
+  border-radius:70% 30% 70% 30%;
+  background:radial-gradient(circle at 30% 30%, #FFC2D1, #E05780);
+}
+.wedding-petal.gold-dust{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#FFE6A7;
+  box-shadow:0 0 12px 3px rgba(255,230,167,.8);
+}
+
+@keyframes petalFall{
+  0%{
+    transform:translate3d(0,-40px,0) rotate(0deg) scale(0.8);
+    opacity:0;
+  }
+  10%{ opacity:.95; }
+  50%{
+    transform:translate3d(60px,55vh,0) rotate(220deg) scale(1.1);
+  }
+  100%{
+    transform:translate3d(-40px,110vh,0) rotate(420deg) scale(0.9);
+    opacity:0;
+  }
+}
+
+.wedding-sparkle{
+  position:absolute;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#FFF5D6;
+  box-shadow:0 0 12px 4px rgba(255,223,128,.7);
+  animation:sparkle 2.5s ease-in-out infinite;
+}
+@keyframes sparkle{
+  0%,100%{transform:scale(.3); opacity:.1}
+  50%{transform:scale(1.3); opacity:.95}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .wedding-petal,.wedding-sparkle{animation:none; opacity:.3}
+}
+
+</style>
+</head>
+<body class="locked">
+
+<!-- WEDDING EFFECTS CONTAINER -->
+<div class="wedding-effects" id="wedding-effects"></div>
+
+<!-- ENVELOPE -->
+<div id="envelope">
+  <div class="env-wrap">
+    <div class="env-body">
+      <div class="env-card">
+        <div class="om">ওঁ শ্রী গণেশায় নমঃ</div>
+        <div class="nm">Pranto &amp; Sonjita</div>
+        <div class="om">২৮ অগ্রহায়ণ, ১৪৩৩</div>
+      </div>
+      <div class="env-flap"></div>
+      <button class="seal" id="seal" aria-label="নিমন্ত্রণপত্র খুলুন"><span>শু</span></button>
+    </div>
+    <div class="env-hint">সিলে ছুঁয়ে খুলুন</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.6" aria-hidden="true">
+    <circle cx="100" cy="100" r="92"/>
+    <circle cx="100" cy="100" r="78"/>
+    <circle cx="100" cy="100" r="4" fill="currentColor" stroke="none"/>
+    <g>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(30 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(60 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(90 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(120 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(150 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(180 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(210 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(240 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(270 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(300 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(330 100 100)"/>
+    </g>
+    <circle cx="100" cy="100" r="54"/>
+    <circle cx="100" cy="100" r="30"/>
+  </svg>
+  <div class="shell">
+    <div class="invocation">ওঁ শ্রী গণেশায় নমঃ</div>
+    <svg class="alpona" viewBox="0 0 320 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="margin:26px auto 18px">
+      <path d="M10 22h96M214 22h96"/>
+      <path d="M120 22c0-9 7-16 16-16s16 7 16 16-7 16-16 16-16-7-16-16z"/>
+      <path d="M168 22c0-9 7-16 16-16s16 7 16 16-7 16-16 16-16-7-16-16z"/>
+      <path d="M160 6c6 5 8 10 8 16s-2 11-8 16c-6-5-8-10-8-16s2-11 8-16z"/>
+      <circle cx="160" cy="22" r="2.5" fill="currentColor" stroke="none"/>
+      <circle cx="110" cy="22" r="1.8" fill="currentColor" stroke="none"/>
+      <circle cx="210" cy="22" r="1.8" fill="currentColor" stroke="none"/>
+    </svg>
+    <h1 class="couple">Pranto<span class="amp">&amp;</span>Sonjita</h1>
+    <div class="couple-bn">কিংশুক অধিকারী প্রান্ত ও সঞ্জিতা বর্মন</div>
+    <div class="datestrip">
+      <span>রবিবার</span><i>◆</i><span>১৩ ডিসেম্বর ২০২৬</span><i>◆</i><span>ঠাকুরগাঁও</span>
+    </div>
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="cd-unit"><div class="cd-num" id="cd-d">—</div><div class="cd-lab">দিন</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-h">—</div><div class="cd-lab">ঘণ্টা</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-m">—</div><div class="cd-lab">মিনিট</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-s">—</div><div class="cd-lab">সেকেন্ড</div></div>
+    </div>
+    <div class="scrollcue">নিচে নামুন</div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section>
+  <div class="shell story reveal">
+    <div>
+      <div class="eyebrow">আমাদের কথা</div>
+      <h2>Two families,<br>one thread</h2>
+    </div>
+    <div>
+      <p class="lead">দু’টি পরিবার, এক নতুন সম্পর্ক — শুভ বন্ধনের এই শুভক্ষণে।</p>
+      <p class="bn">দুই পরিবারের সম্মতি ও গুরুজনদের আশীর্বাদে<br>দু’টি জীবন এবার এক নতুন অধ্যায়ের সূচনা করতে চলেছে।<br>এই শুভ মিলনের সাক্ষী হতে আপনাদের উপস্থিতি<br>আমাদের আনন্দকে করবে সম্পূর্ণ।</p>
+      <p class="bn">শ্রী ও শ্রীমতী অধিকারী পরিবার এবং শ্রী ও শ্রীমতী বর্মন পরিবার<br>আপনাদের সপরিবারে উপস্থিতি ও আশীর্বাদ প্রার্থনা করছেন।</p>
+    </div>
+  </div>
+</section>
+
+<!-- INVITATION LETTER -->
+<section class="letter-stage">
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.6" aria-hidden="true">
+    <circle cx="100" cy="100" r="92"/><circle cx="100" cy="100" r="78"/>
+    <circle cx="100" cy="100" r="4" fill="currentColor" stroke="none"/>
+    <g>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(45 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(90 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(135 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(180 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(225 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(270 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(315 100 100)"/>
+    </g>
+    <circle cx="100" cy="100" r="54"/>
+  </svg>
+  <div class="shell reveal center">
+    <div class="eyebrow">নিমন্ত্রণপত্র</div>
+    <h2>The invitation</h2>
+
+    <div class="letter">
+      <svg class="corner c1" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <path d="M2 38V10C2 5.6 5.6 2 10 2h28"/><path d="M8 32V14c0-3.3 2.7-6 6-6h18"/>
+        <circle cx="12" cy="12" r="2.2"/>
+      </svg>
+      <svg class="corner c2" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <path d="M2 38V10C2 5.6 5.6 2 10 2h28"/><path d="M8 32V14c0-3.3 2.7-6 6-6h18"/>
+        <circle cx="12" cy="12" r="2.2"/>
+      </svg>
+      <svg class="corner c3" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <path d="M2 38V10C2 5.6 5.6 2 10 2h28"/><path d="M8 32V14c0-3.3 2.7-6 6-6h18"/>
+        <circle cx="12" cy="12" r="2.2"/>
+      </svg>
+      <svg class="corner c4" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <path d="M2 38V10C2 5.6 5.6 2 10 2h28"/><path d="M8 32V14c0-3.3 2.7-6 6-6h18"/>
+        <circle cx="12" cy="12" r="2.2"/>
+      </svg>
+
+      <div class="letter-body">
+        <div class="letter-om">ওঁ শ্রী গণেশায় নমঃ</div>
+        <div class="letter-rule"></div>
+
+        <p class="letter-open">সবিনয় নিবেদন,<br>
+        পরম করুণাময়ের আশীর্বাদে ও গুরুজনদের সম্মতিক্রমে<br>আমাদের স্নেহের</p>
+
+        <div class="letter-names">Sonjita &amp; Pranto</div>
+        <div class="letter-names-bn">সঞ্জিতা বর্মন ও কিংশুক অধিকারী প্রান্ত</div>
+
+        <p class="letter-open" style="margin-top:14px">— এই দু’টি হৃদয়ের শুভ পরিণয় স্থির হয়েছে।<br>
+        শুভকর্মে আপনার ও আপনার পরিবারের পদার্পণ<br>আমাদের আনন্দ সম্পূর্ণ করবে।</p>
+
+        <div class="letter-rule"></div>
+
+        <p class="letter-meta">
+          <b>শুভ বিবাহ</b><br>
+          রবিবার, ২৮ অগ্রহায়ণ ১৪৩৩ · ১৩ ডিসেম্বর ২০২৬<br>
+          লগ্ন — রাত ৯টা ৪২ মিনিট পর্যন্ত<br>
+          সভা আরম্ভ সন্ধ্যা ৭টা<br><br>
+          <b>পাত্রীর বাড়ি</b><br>
+          ঠাকুরগাঁও সদর, ঠাকুরগাঁও
+        </p>
+
+        <div class="letter-sign">
+          <span class="ity">ইতি</span><br>
+          শ্রী ও শ্রীমতী অধিকারী পরিবার<br>
+          শ্রী ও শ্রীমতী বর্মন পরিবার<br>
+          ও পরিবারবর্গ
+        </div>
+      </div>
+    </div>
+
+    <a class="btn" href="#rsvp" style="margin-top:30px">উপস্থিতি জানান</a>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section>
+  <div class="shell reveal">
+    <div class="center">
+      <div class="eyebrow">অনুষ্ঠানসূচি</div>
+      <h2>The four days</h2>
+    </div>
+    <div class="ledger">
+
+      <div class="rite">
+        <div>
+          <div class="rite-when">১১ ডিসেম্বর · সন্ধ্যা ৬টা</div>
+        </div>
+        <div>
+          <h3>Aiburo Bhat</h3>
+          <div class="rite-name-bn">আইবুড়ো ভাত</div>
+          <p class="rite-note">বিয়ের আগে শেষবার — বাড়ির লোকজনের হাতে পাত সাজিয়ে খাওয়ানো। ঘরোয়া, শুধু পরিবার ও ঘনিষ্ঠরা।</p>
+        </div>
+        <div class="rite-where"><b>পাত্রীর বাড়ি</b>ঠাকুরগাঁও সদর, ঠাকুরগাঁও</div>
+      </div>
+
+      <div class="rite">
+        <div><div class="rite-when">১২ ডিসেম্বর · সকাল ১০টা</div></div>
+        <div>
+          <h3>Gaye Holud</h3>
+          <div class="rite-name-bn">গায়ে হলুদ — বরের বাড়িতে</div>
+          <p class="rite-note">সকালে বরের বাড়িতে হলুদের অনুষ্ঠান — বাড়ির লোকজন ও আত্মীয়দের নিয়ে ছোট করে হলুদ মাখানো।</p>
+        </div>
+        <div class="rite-where"><b>পাত্রের বাড়ি</b>ভুসিরবন্দর, দিনাজপুর</div>
+      </div>
+
+      <div class="rite">
+        <div><div class="rite-when">১২ ডিসেম্বর · দুপুর ২টা</div></div>
+        <div>
+          <h3>Gaye Holud</h3>
+          <div class="rite-name-bn">গায়ে হলুদ ও তত্ত্ব — কনের বাড়িতে</div>
+          <p class="rite-note">হলুদ শাড়ি, ঢাক আর কাঁচা হলুদ। তত্ত্বের ডালা যাবে দুপুরে, হলুদ মাখানো বিকেল গড়িয়ে — কনের বাড়িতে।</p>
+        </div>
+        <div class="rite-where"><b>পাত্রীর বাড়ি</b>ঠাকুরগাঁও সদর, ঠাকুরগাঁও</div>
+      </div>
+
+      <div class="rite">
+        <div><div class="rite-when">১৩ ডিসেম্বর · সন্ধ্যা ৭টা</div></div>
+        <div>
+          <h3>Shubho Bibaho</h3>
+          <div class="rite-name-bn">শুভ বিবাহ — লগ্ন রাত ৯:৪২ পর্যন্ত</div>
+          <p class="rite-note">বরবরণ, সাতপাক, শুভদৃষ্টি, মালাবদল ও সম্প্রদান। লগ্নের আগে পৌঁছনোর অনুরোধ রইল।</p>
+        </div>
+        <div class="rite-where"><b>পাত্রীর বাড়ি</b>ঠাকুরগাঁও সদর, ঠাকুরগাঁও</div>
+      </div>
+
+      <div class="rite">
+        <div><div class="rite-when">১৫ ডিসেম্বর · দুপুর ১২টা</div></div>
+        <div>
+          <h3>Bou Bhat</h3>
+          <div class="rite-name-bn">বৌভাত ও প্রীতিভোজ</div>
+          <p class="rite-note">নতুন বউয়ের হাতে প্রথম ভাত বাড়া, তারপর দুপুরভর খাওয়াদাওয়া।</p>
+        </div>
+        <div class="rite-where"><b>পাত্রের বাড়ি</b>ভুসিরবন্দর, দিনাজপুর</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RITUALS -->
+<section>
+  <div class="shell reveal">
+    <div class="center">
+      <div class="eyebrow">যাঁরা প্রথমবার আসছেন</div>
+      <h2>What you will see</h2>
+      <p style="color:var(--parchment-dim)">বাঙালি হিন্দু বিয়ের কিছু পবিত্র মুহূর্ত, যেগুলো মিস করা চলবে না।</p>
+    </div>
+    <div class="rituals" style="margin-top:38px">
+      <div class="ritual"><h4>বরবরণ</h4><p>বর এসে পৌঁছলে মা-মাসিরা বরণডালা নিয়ে তাঁকে বরণ করে ঘরে তোলেন।</p></div>
+      <div class="ritual"><h4>সাতপাক</h4><p>পিঁড়িতে বসানো কনেকে ঘিরে বরের চারদিকে সাতবার ঘোরা — মুখ ঢাকা থাকে পান পাতায়।</p></div>
+      <div class="ritual"><h4>শুভদৃষ্টি</h4><p>পান সরিয়ে দু’জনের প্রথম চোখাচোখি। উলুধ্বনি আর শঙ্খধ্বনি এই মুহূর্তেই।</p></div>
+      <div class="ritual"><h4>মালাবদল</h4><p>তিনবার মালা বদল। আত্মীয়রা কাঁধে তুলে ধরেন, কে আগে পরাবে তাই নিয়ে হইচই।</p></div>
+      <div class="ritual"><h4>সিঁদুরদান</h4><p>বর কনের সিঁথিতে সিঁদুর পরান, কনে নতুন শাড়ির আঁচলে মাথা ঢাকেন।</p></div>
+      <div class="ritual"><h4>বিদায়</h4><p>কনে এক মুঠো খই পিছনে ছুঁড়ে বাপের বাড়ির ঋণ শোধ করে বেরোন। এটুকু চোখে জল আসবেই।</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- VENUE -->
+<section class="venue">
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.6" aria-hidden="true">
+    <circle cx="100" cy="100" r="92"/><circle cx="100" cy="100" r="78"/>
+    <circle cx="100" cy="100" r="4" fill="currentColor" stroke="none"/>
+    <g>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(60 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(120 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(180 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(240 100 100)"/>
+      <path d="M100 22c10 14 10 24 0 36c-10-12-10-22 0-36z" transform="rotate(300 100 100)"/>
+    </g>
+    <circle cx="100" cy="100" r="54"/>
+  </svg>
+  <div class="shell reveal">
+    <div class="eyebrow">বিয়ের ঠিকানা</div>
+    <div class="venue-name">পাত্রীর বাড়ি</div>
+    <p style="color:var(--parchment-dim)">ঠাকুরগাঁও সদর, ঠাকুরগাঁও।<br>শুভ বিবাহের মূল অনুষ্ঠান কনের বাড়িতে অনুষ্ঠিত হবে।</p>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Thakurgaon+Sadar%2C+Thakurgaon" target="_blank" rel="noopener">ম্যাপে দেখুন</a>
+    <svg class="alpona" viewBox="0 0 320 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="margin-top:46px">
+      <path d="M10 22h110M200 22h110"/>
+      <path d="M160 4c9 7 13 12 13 18s-4 11-13 18c-9-7-13-12-13-18s4-11 13-18z"/>
+      <path d="M133 22c5-6 12-9 20-9M187 22c-5 6-12 9-20 9"/>
+      <circle cx="160" cy="22" r="2.5" fill="currentColor" stroke="none"/>
+    </svg>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section>
+  <div class="shell reveal">
+    <div class="center">
+      <div class="eyebrow">ছবিঘর</div>
+      <h2>Moments</h2>
+      <p style="color:var(--parchment-dim)">সাত বছরের কিছু টুকরো, আর সামনের দিনগুলোর অপেক্ষা।</p>
+    </div>
+
+    <div class="gallery" id="gallery">
+      <figure class="shot"><img src="photos/01.jpg" alt="" loading="lazy"><figcaption>First Meet</figcaption></figure>
+      <figure class="shot"><img src="photos/02.jpg" alt="" loading="lazy"><figcaption>Dinajpur,2026</figcaption></figure>
+      <figure class="shot"><img src="photos/03.jpg" alt="" loading="lazy"><figcaption>আশীর্বাদের দিন</figcaption></figure>
+      <figure class="shot"><img src="photos/04.jpg" alt="" loading="lazy"><figcaption>দুই পরিবার</figcaption></figure>
+      <figure class="shot"><img src="photos/05.jpg" alt="" loading="lazy"><figcaption>প্রি-ওয়েডিং শুট</figcaption></figure>
+      <figure class="shot"><img src="photos/06.jpg" alt="" loading="lazy"><figcaption>Kantaji Temple</figcaption></figure>
+    </div>
+
+    <div class="download-block">
+      <p>সব ছবি এক জায়গায় — নিজের তোলা ছবিও এখানে যোগ করতে পারবেন।</p>
+      <a class="btn solid" id="drive-link" href="https://drive.google.com/drive/folders/PASTE_YOUR_FOLDER_ID_HERE" target="_blank" rel="noopener">সব ছবি দেখুন / ডাউনলোড করুন</a>
+    </div>
+  </div>
+</section>
+
+<div id="lightbox" role="dialog" aria-label="ছবি"><img src="" alt=""><div class="cap"></div></div>
+
+<!-- RSVP -->
+<section id="rsvp">
+  <div class="shell reveal center">
+    <div class="eyebrow">উপস্থিতি জানান</div>
+    <h2>Say you'll come</h2>
+    <p style="color:var(--parchment-dim)">৩০ নভেম্বরের মধ্যে জানালে খাওয়াদাওয়া আর থাকার ব্যবস্থা গুছিয়ে রাখতে সুবিধে হয়।</p>
+
+    <div class="form" style="margin-top:36px">
+      <div class="field">
+        <label for="g-name">নাম</label>
+        <input id="g-name" type="text" placeholder="আপনার পুরো নাম" autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="g-count">ক’জন আসছেন</label>
+        <select id="g-count">
+          <option>১ জন</option><option>২ জন</option><option>৩ জন</option>
+          <option>৪ জন</option><option>৫ জন বা তার বেশি</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="g-days">কোন কোন দিন থাকছেন</label>
+        <select id="g-days">
+          <option>সব অনুষ্ঠানে</option>
+          <option>শুধু বিয়ে — ১৩ ডিসেম্বর</option>
+          <option>শুধু বৌভাত — ১৫ ডিসেম্বর</option>
+          <option>গায়ে হলুদ ও বিয়ে</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="g-note">কিছু বলার আছে?</label>
+        <textarea id="g-note" rows="2" placeholder="খাবারে অ্যালার্জি, থাকার ব্যবস্থা দরকার, ইত্যাদি"></textarea>
+      </div>
+      <button class="btn solid" id="send" style="width:100%">হোয়াটসঅ্যাপে পাঠান</button>
+      <div class="toast" id="toast" role="status"></div>
+      <p class="form-note">উপস্থিতি বা অনুষ্ঠানের বিষয়ে কোনো তথ্যের প্রয়োজন হলে পরিবারের সঙ্গে যোগাযোগ করুন।</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <div class="blessing">আপনাদের আশীর্বাদই আমাদের পাথেয়।</div>
+    <div class="credit">Pranto &amp; Sonjita · ১৩ ডিসেম্বর ২০২৬ · ঠাকুরগাঁও</div>
+    <div class="credit" style="margin-top:8px; font-size:13px; opacity:.8;">© Durjoy</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- ENHANCED HINDU WEDDING PETAL & SPARKLE GENERATOR ---- */
+  var fxContainer = document.getElementById('wedding-effects');
+  if(fxContainer){
+    var types = ['', 'marigold', 'rose-soft', 'gold-dust'];
+    for(var i = 0; i < 48; i++){
+      var petal = document.createElement('div');
+      var typeClass = types[Math.floor(Math.random() * types.length)];
+      petal.className = 'wedding-petal ' + typeClass;
+      petal.style.left = Math.random() * 100 + '%';
+      petal.style.animationDuration = (Math.random() * 4 + 5) + 's';
+      petal.style.animationDelay = (Math.random() * 6) + 's';
+      fxContainer.appendChild(petal);
+    }
+    for(var j = 0; j < 30; j++){
+      var sparkle = document.createElement('div');
+      sparkle.className = 'wedding-sparkle';
+      sparkle.style.left = Math.random() * 100 + '%';
+      sparkle.style.top = Math.random() * 100 + '%';
+      sparkle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      sparkle.style.animationDelay = (Math.random() * 3) + 's';
+      fxContainer.appendChild(sparkle);
+    }
+  }
+
+  /* ---- envelope ---- */
+  var env = document.getElementById('envelope');
+  var seal = document.getElementById('seal');
+  function open(){
+    if(env.classList.contains('opened')) return;
+    env.classList.add('opened');
+    setTimeout(function(){ document.body.classList.remove('locked'); }, 1400);
+  }
+  seal.addEventListener('click', open);
+  env.addEventListener('click', function(e){ if(e.target !== seal) open(); });
+
+  /* ---- countdown ---- */
+  var WEDDING_DATE = '2026-12-13T19:00:00+06:00';
+  var target = new Date(WEDDING_DATE).getTime();
+  var f = function(n){ return String(n).padStart(2,'0'); };
+  var bn = function(s){ return String(s).replace(/[0-9]/g, function(d){ return '০১২৩৪৫৬৭৮৯'[d]; }); };
+  function tick(){
+    var gap = target - Date.now();
+    if(gap <= 0){
+      document.getElementById('countdown').innerHTML =
+        '<div class="cd-lab" style="font-size:16px">আজ আমাদের বিয়ে — আপনার অপেক্ষায়</div>';
+      return;
+    }
+    var d = Math.floor(gap/86400000),
+        h = Math.floor(gap/3600000) % 24,
+        m = Math.floor(gap/60000) % 60,
+        s = Math.floor(gap/1000) % 60;
+    document.getElementById('cd-d').textContent = bn(d);
+    document.getElementById('cd-h').textContent = bn(f(h));
+    document.getElementById('cd-m').textContent = bn(f(m));
+    document.getElementById('cd-s').textContent = bn(f(s));
+    setTimeout(tick, 1000);
+  }
+  tick();
+
+  /* ---- reveal ---- */
+  var io = new IntersectionObserver(function(en){
+    en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* ---- gallery ---- */
+  var lb = document.getElementById('lightbox');
+  var lbImg = lb.querySelector('img'), lbCap = lb.querySelector('.cap');
+  document.querySelectorAll('#gallery .shot').forEach(function(fig){
+    var img = fig.querySelector('img');
+    img.addEventListener('error', function(){ fig.classList.add('empty'); });
+    if(img.complete && img.naturalWidth === 0) fig.classList.add('empty');
+    fig.addEventListener('click', function(){
+      if(fig.classList.contains('empty')) return;
+      lbImg.src = img.currentSrc || img.src;
+      lbCap.textContent = fig.querySelector('figcaption').textContent;
+      lb.classList.add('on'); document.body.classList.add('locked');
+    });
+  });
+  function closeLb(){ lb.classList.remove('on'); document.body.classList.remove('locked'); lbImg.src=''; }
+  lb.addEventListener('click', closeLb);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && lb.classList.contains('on')) closeLb(); });
+
+  /* ---- rsvp via whatsapp ---- */
+  var HOST_WA = '';
+  var toast = document.getElementById('toast');
+  document.getElementById('send').addEventListener('click', function(){
+    var name = document.getElementById('g-name').value.trim();
+    if(!name){ toast.textContent = 'নামটা লিখুন, তারপর পাঠান।'; document.getElementById('g-name').focus(); return; }
+    var msg = 'বিয়েতে আসছি —\nনাম: ' + name +
+      '\nমোট: ' + document.getElementById('g-count').value +
+      '\nদিন: ' + document.getElementById('g-days').value;
+    var note = document.getElementById('g-note').value.trim();
+    if(note) msg += '\nবিশেষ: ' + note;
+    try{ localStorage.setItem('rsvp-name', name); }catch(e){}
+    toast.textContent = 'হোয়াটসঅ্যাপ খুলছে…';
+    if(HOST_WA){ window.open('https://wa.me/' + HOST_WA + '?text=' + encodeURIComponent(msg), '_blank'); }
+  });
+  try{
+    var saved = localStorage.getItem('rsvp-name');
+    if(saved) document.getElementById('g-name').value = saved;
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
